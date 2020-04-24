@@ -1,12 +1,12 @@
 'use strict'
 
-var mongoose = require('mongoose');
+const Mongoose = require('mongoose');
 var app = require('./app');
-var port = process.env.port || 3789;
+const port = process.env.port || 3789;
 
-mongoose.Promise = global.Promise;
+Mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost:27017/zoo')
+Mongoose.connect('mongodb://localhost:27017/zoo')
         .then(() => {
                console.log('La conexión a la base de datos zoo se ha realizado correctamente...');
 

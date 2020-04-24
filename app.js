@@ -1,16 +1,17 @@
 'use strict'
 
-const express = require('express');
-const bodyParser = require('body-parser');
+const Express = require('express');
+const BodyParser = require('body-parser');
 
-const app = express();
+var app = Express();
 
 // cargar rutas
 const user_routes = require('./routes/user');
 
 // middlewares de body-parser
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
+app.use(BodyParser.json());
+app.use(BodyParser.urlencoded({ extended: true }));
+
 
 // Configurar cabeceras y cors
 

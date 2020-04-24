@@ -1,14 +1,15 @@
 'use strict'
+const Mongoose = require('mongoose');
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const Schema = Mongoose.Schema;
 
-var UserSchema = Schema({
+const UserSchema = Schema({
     name: String,
     surname: String,
     email: String,
+    role: String,
     password: String,
-    role: String
+    image: String
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = Mongoose.model('User', UserSchema);

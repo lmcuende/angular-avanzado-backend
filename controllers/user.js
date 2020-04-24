@@ -1,10 +1,15 @@
 'use strict'
 
 // módulos
-var bcrypt = require('bcrypt-nodejs');
+const Bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 // modelos
 var User = require('../models/user');
+
+// servicios
+var jwt = require('../services/jwt');
 
 // acciones
 function pruebas(req, res){
@@ -36,7 +41,7 @@ function saveUser(req, res){
             } else {
                 if(!issetUser) {
                     // Cifrar la contraseña
-                    bcrypt.hash(params.password, null, null, function(err, hash) {
+                    Bcrypt.hash(params.password, saltRounds, function(err, hash) {
                         user.password = hash;
 
                         // Guardar la contraseña
@@ -69,7 +74,49 @@ function saveUser(req, res){
     }
 }
 
+function login(req, res) {
+    var params = req.body;
+
+    var email = params.email;
+    var password = params.password;
+
+    User.findOne({email: email.toLowerCase()}, (err, user) => {
+        if(err){
+            res.status(500).send({ message: 'Error al comprobar que el usuario existe'});    
+        } else {
+            if(user) {
+                Bcrypt.compare(password, user.password, (err, check) => {
+                    if (check == true) {
+
+                        // Comprobar y generar token
+                        if (params.gettoken) {
+                            // devolver token jwt
+                            res.status(200).send({
+                                token: jwt.createToken(user)
+                            });
+
+                        } else {
+                            res.status(200).send({user});
+                        }
+                        
+                    } else {
+                        res.status(404).send({
+                            message: 'el usuario no ha podido loguearse correctamente'
+                        });
+                    }
+                });
+            } else {
+                res.status(404).send({
+                    message: 'el usuario no ha podido loguearse'
+                });
+            }
+        }
+    });
+
+}
+
 module.exports = {
     pruebas,
-    saveUser
+    saveUser,
+    login
 };
