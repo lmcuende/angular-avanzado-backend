@@ -14,7 +14,8 @@ var jwt = require('../services/jwt');
 // acciones
 function pruebas(req, res){
     res.status(200).send({
-        message: 'Probando el controlador de usuarios y la acción pruebas...'
+        message: 'Probando el controlador de usuarios y la acción pruebas...',
+        user: req.user
     });
 }
 
@@ -77,10 +78,11 @@ function saveUser(req, res){
 function login(req, res) {
     var params = req.body;
 
-    var email = params.email;
+    var email = params.email.toLowerCase();
     var password = params.password;
 
-    User.findOne({email: email.toLowerCase()}, (err, user) => {
+    
+    User.findOne({ email: email }, (err, user) => {
         if(err){
             res.status(500).send({ message: 'Error al comprobar que el usuario existe'});    
         } else {
