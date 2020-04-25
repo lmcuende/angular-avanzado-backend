@@ -1,9 +1,9 @@
 'use strict'
 
-const Express = require('express');
+var express = require('express');
 var UserController = require('../controllers/user');
 
-var api = Express.Router();
+var api = express.Router();
 var md_auth = require('../middlewares/authenticate');
 
 api.get('/pruebas-del-controlador', md_auth.ensureAuth, UserController.pruebas);

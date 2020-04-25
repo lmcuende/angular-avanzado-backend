@@ -1,7 +1,7 @@
 'use strict'
 
 // módulos
-const Bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
@@ -42,7 +42,7 @@ function saveUser(req, res){
             } else {
                 if(!issetUser) {
                     // Cifrar la contraseña
-                    Bcrypt.hash(params.password, saltRounds, function(err, hash) {
+                    bcrypt.hash(params.password, null, null, function(err, hash) {
                         user.password = hash;
 
                         // Guardar la contraseña
@@ -87,7 +87,7 @@ function login(req, res) {
             res.status(500).send({ message: 'Error al comprobar que el usuario existe'});    
         } else {
             if(user) {
-                Bcrypt.compare(password, user.password, (err, check) => {
+                bcrypt.compare(password, user.password, (err, check) => {
                     if (check == true) {
 
                         // Comprobar y generar token
