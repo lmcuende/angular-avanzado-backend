@@ -44,7 +44,7 @@ function saveUser(req, res){
             } else {
                 if(!issetUser) {
                     // Cifrar la contraseña
-                    bcrypt.hash(params.password, null, null, function(err, hash) {
+                    bcrypt.hash(params.password, saltRounds, function(err, hash) {
                         user.password = hash;
 
                         // Guardar la contraseña

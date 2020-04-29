@@ -15,6 +15,13 @@ app.use(BodyParser.urlencoded({ extended: true }));
 
 
 // Configurar cabeceras y cors
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-requested-With, Content-Type, Accept, Access-Control-Allow-request-Method');
+    res.header('access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 
 // Rutas base
 app.use('/api', user_routes);
